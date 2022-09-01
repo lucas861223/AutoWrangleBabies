@@ -1,21 +1,16 @@
 using HarmonyLib;
+using UnityEngine;
 
 namespace AutoWrangleBabies
 {
     public class Patches
     {
-        [HarmonyPatch(typeof(Db))]
-        [HarmonyPatch("Initialize")]
-        public class Db_Initialize_Patch
+        [HarmonyPatch(typeof(EntityTemplates), "ExtendEntityToBeingABaby")]
+        public class Baby_Patch
         {
-            public static void Prefix()
+            public static void Postfix(GameObject __result)
             {
-                Debug.Log("I execute before Db.Initialize!");
-            }
-
-            public static void Postfix()
-            {
-                Debug.Log("I execute after Db.Initialize!");
+                __result.AddOrGetDef<FixedCapturableMonitor.Def>();
             }
         }
     }
